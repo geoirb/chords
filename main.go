@@ -1,6 +1,7 @@
 package main
 
 import (
+	"chords/controllers"
 	"context"
 	"os"
 	"os/signal"
@@ -24,7 +25,7 @@ func main() {
 	e.Use(middleware.Static("react/build"))
 
 	chordgroup := e.Group("/chord")
-	chordgroup.GET("/:author/:titel")
+	chordgroup.GET("/:author/:titel", controllers.GetChords)
 
 	go func() {
 		if err := e.Start(":1323"); err != nil {

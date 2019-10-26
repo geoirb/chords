@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"io/ioutil"
 	"net/http"
 )
@@ -11,7 +12,7 @@ const query string = "http://api.guitarparty.com/v2/songs/?query=%s"
 func SearchingSongs(titel string) ([]byte, error) {
 	netClient := &http.Client{}
 
-	req, _ := http.NewRequest("GET", query, nil)
+	req, _ := http.NewRequest("GET", fmt.Sprintf(query, titel), nil)
 	req.Header.Set("Guitarparty-Api-Key", key)
 
 	response, err := netClient.Do(req)
