@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Form, Button, Segment} from 'semantic-ui-react';
+import { Form, Button, Segment, Grid } from 'semantic-ui-react';
 
 import GoService from '../../services/go-server';
 
 
-const { getChords } = new GoService();
+const { getChords, getPyChords } = new GoService();
 
 class App extends Component{
     state = {
@@ -12,11 +12,13 @@ class App extends Component{
         titel: '',
         author: '',
         text: [],
+        textpy: ""
     }
 
     onGetText = () => {
         const { titel, author } = this.state;
         getChords(author.replace(/ /g,'+'), titel.replace(/ /g,'+')).then(({ data }) => this.setState({ text: data }));
+        getPyChords(author.replace(/ /g,'+'), titel.replace(/ /g,'+')).then(({ data }) => this.setState({ text: data }));
     };
 
     onView = (view) => () => this.setState({ view: !view });
@@ -24,7 +26,7 @@ class App extends Component{
     onChange = (e, { name, value }) => this.setState({ [name]: value });
     
     render(){
-        const { titel, author, text, view } = this.state;
+        const { titel, author, text, textpy, view } = this.state;
         
         const splice = (idx, rem, str) => {
             return str.slice(0, idx) + rem + str.slice(idx);
@@ -67,18 +69,25 @@ class App extends Component{
                     onClick={this.onView(view)}
                     icon='eye'
                     />
-                <Segment>
-                    <pre>
-                    {
-                        text.map(({line, chords})=>(
-                            <React.Fragment> 
-                                {getLine(line.length, chords)}
-                                {line !== "" ? <div>{line}</div> : <p></p>}
-                            </React.Fragment>
-                        ))
-                    }
-                    </pre>
-                </Segment>
+                <Grid columns={2}>
+                    <Grid.Column>
+                        <pre>
+                        {
+                            text.map(({line, chords})=>(
+                                <React.Fragment> 
+                                    {getLine(line.length, chords)}
+                                    {line !== "" ? <div>{line}</div> : <p></p>}
+                                </React.Fragment>
+                            ))
+                        }
+                        </pre>
+                    </Grid.Column>
+                    <Grid.Column>
+                        <pre>
+                            {textpy}
+                        </pre>
+                    </Grid.Column>
+                </Grid>
             </Segment>
         );
     };

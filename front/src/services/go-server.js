@@ -20,7 +20,8 @@ const API = {
 };
 
 class GoService{
-    getChords = (author, titel) => API.GET('/chord/' + author + '/' + titel);
+    getChords = (author, titel) => API.GET('/chord/go/' + author + '/' + titel);
+    getPyChords = (author, titel) => API.GET('/chord/py/' + author + '/' + titel);
 };
 
 // http://127.0.0.1:1323/chord/Dolly/Jolene
