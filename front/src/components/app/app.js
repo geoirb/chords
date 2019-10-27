@@ -16,7 +16,6 @@ class App extends Component{
 
     onGetText = () => {
         const { titel, author } = this.state;
-        console.log(titel.replace(/ /g,'+'))
         getChords(author.replace(/ /g,'+'), titel.replace(/ /g,'+')).then(({ data }) => this.setState({ text: data }));
     };
 
@@ -27,9 +26,7 @@ class App extends Component{
     render(){
         const { titel, author, text, view } = this.state;
         
-
         const splice = (idx, rem, str) => {
-            console.log(rem)
             return str.slice(0, idx) + rem + str.slice(idx);
         };
 
@@ -39,9 +36,8 @@ class App extends Component{
             return view ? <b>{chordsLine}</b>: null
         }
 
-
         return (
-            <div>
+            <Segment>
                 <Form>
                     <Form.Group widths='equal'>
                         <Form.Input
@@ -63,6 +59,7 @@ class App extends Component{
                 <Button
                     onClick={this.onGetText}
                     icon='check'
+                    disabled={author === "" || titel === ""}
                     />
                 <Button 
                     positive={view}
@@ -82,7 +79,7 @@ class App extends Component{
                     }
                     </pre>
                 </Segment>
-            </div>
+            </Segment>
         );
     };
 };
