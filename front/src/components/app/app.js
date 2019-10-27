@@ -16,6 +16,7 @@ class App extends Component{
 
     onGetText = () => {
         const { titel, author } = this.state;
+        this.setState({ text: [] })
         getChords(author.replace(/ /g,'+'), titel.replace(/ /g,'+')).then(({ data }) => this.setState({ text: data }));
     };
 
